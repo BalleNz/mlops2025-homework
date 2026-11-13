@@ -1,8 +1,13 @@
+import json
+import os
 import pickle
+
 import pandas as pd
 import yaml
-from sklearn.model_selection import train_test_split
 from sklearn.metrics import accuracy_score
+from sklearn.model_selection import train_test_split
+
+METRICS_PATH = "metrics/metrics.json"
 
 
 def load_params():
@@ -21,14 +26,27 @@ def evaluate_model():
     X = df[["total_bill", "size"]]
     y = df["high_tip"]
 
-    X_train, X_test, y_train, y_test = train_test_split(
+    _, X_test, _, y_test = train_test_split(
         X, y, test_size=params["test_size"], random_state=params["seed"]
     )
 
     y_pred = model.predict(X_test)
     accuracy = accuracy_score(y_test, y_pred)
 
+    metrics = {
+        "accuracy": float(accuracy),
+        "n_rows": int(len(df)),
+        "n_test_rows": int(len(X_test)),
+    }
+
+    os.makedirs(os.path.dirname(METRICS_PATH), exist_ok=True)
+    with open(METRICS_PATH, "w") as f:
+        json.dump(metrics, f, indent=2)
+        f.write("\n")
+
     print(f"Accuracy: {accuracy:.4f}")
+    print(f"Rows in dataset: {len(df)} (test: {len(X_test)})")
+    print(f"Metrics saved to {METRICS_PATH}")
 
 
 if __name__ == "__main__":
