@@ -1,0 +1,42 @@
+[project]
+name = "mlops2025-homework"
+version = "0.1.0"
+description = "MLOps 2025, lesson 2: model validation and metrics in a DVC pipeline"
+authors = [{ name = "Arsen Ziyadinov" }]
+readme = "README.md"
+requires-python = ">=3.10,<3.12"
+dependencies = [
+    "pandas (>=2.2,<3.0)",
+    "scikit-learn (>=1.5,<2.0)",
+    "dvc (>=3.50,<4.0)",
+    "great-expectations (>=0.18,<0.19)",
+    "pyyaml (>=6.0,<7.0)",
+]
+
+[tool.poetry]
+package-mode = false
+
+[tool.poetry.group.dev.dependencies]
+pre-commit = "^4.0"
+black = "^24.10"
+ruff = "^0.8"
+isort = "^5.13"
+
+[tool.black]
+line-length = 88
+target-version = ["py310", "py311"]
+
+[tool.isort]
+profile = "black"
+
+[tool.ruff]
+line-length = 88
+target-version = "py310"
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "B"]
+ignore = ["E501"]
+
+[build-system]
+requires = ["poetry-core>=2.0.0,<3.0.0"]
+build-backend = "poetry.core.masonry.api"
