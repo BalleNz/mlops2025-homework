@@ -10,7 +10,7 @@
 
 | Задача | Файлы |
 |---|---|
-| 1. Poetry вместо `requirements.txt`, pre-commit: black, ruff, isort, end-of-file-fixer, check-yaml | `pyproject.toml`, `poetry.lock`, `.pre-commit-config.yaml` |
+| 1. Poetry вместо `requirements.txt`, pre-commit: black, ruff, isort, end-of-file-fixer, check-yaml | `pyproject.toml`, `poetry.lock`, [`../.pre-commit-config.yaml`](../.pre-commit-config.yaml) |
 | 2. `evaluate.py` пишет `metrics/metrics.json`: accuracy, число строк в датасете и в тестовой выборке | `src/evaluate.py` |
 | 3. `validate_model.py` читает модель и данные, пересчитывает accuracy на той же тестовой выборке, сверяет её с `metrics.json` и сравнивает с `accuracy_min` из `params.yaml`. При `accuracy < accuracy_min` завершается с кодом 1 | `src/validate_model.py`, `params.yaml` |
 | 4. `dvc.yaml`: у стадии `evaluate` секция `metrics`, новая стадия `validate_model` после `evaluate` | `dvc.yaml`, `dvc.lock` |
@@ -18,6 +18,7 @@
 ## Запуск
 
 ```bash
+cd lesson2_model_validation
 poetry install
 poetry run pre-commit install
 poetry run dvc repro
@@ -25,6 +26,8 @@ poetry run dvc metrics show
 ```
 
 То же через `make install`, `make repro`, `make metrics`, проверка стиля: `make lint`.
+
+Конфиг pre-commit лежит в корне репозитория и проверяет код всех ДЗ. DVC-проект находится в этой папке (`.dvc/` рядом с `dvc.yaml`), поэтому команды `dvc` запускаются отсюда.
 
 ## Результат
 

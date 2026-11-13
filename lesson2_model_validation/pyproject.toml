@@ -1,5 +1,5 @@
 [project]
-name = "mlops2025-homework"
+name = "mlops2025-lesson2"
 version = "0.1.0"
 description = "MLOps 2025, lesson 2: model validation and metrics in a DVC pipeline"
 authors = [{ name = "Arsen Ziyadinov" }]
