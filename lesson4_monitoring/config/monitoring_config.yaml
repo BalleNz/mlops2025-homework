@@ -1,0 +1,43 @@
+service:
+  host: "localhost"
+  port: 8000
+  base_url: "http://localhost:8000"
+  # Для запуска сервиса из монитора (python main.py --start-service):
+  # папка шага 2 и команда запуска, путь считается от папки lesson4_monitoring
+  working_dir: "../step2_fastapi_inference"
+  start_command: ["poetry", "run", "uvicorn", "src.api:app", "--host", "127.0.0.1", "--port", "8000"]
+  startup_timeout_seconds: 300
+
+monitoring:
+  check_interval_seconds: 30
+  samples_per_check: 3
+  request_timeout_seconds: 10
+  # Сколько последних запросов учитывать в P95 и error rate
+  metrics_window: 50
+  # Тестовые изображения для POST /predict, отправляются по кругу
+  images:
+    - "test_images/img.jpg"
+    - "test_images/img.png"
+
+thresholds:
+  response_time_ms:
+    warning: 2000
+    critical: 5000
+  p95_latency_ms:
+    warning: 3000
+    critical: 6000
+  error_rate_percent:
+    warning: 10
+    critical: 25
+  consecutive_failures:
+    warning: 3
+    critical: 5
+
+alerts:
+  enabled: true
+  cooldown_minutes: 5
+
+logging:
+  console_colors: true
+  log_file: "logs/monitoring.log"
+  metrics_file: "logs/metrics.jsonl"

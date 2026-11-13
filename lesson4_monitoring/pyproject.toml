@@ -1,0 +1,45 @@
+[project]
+name = "mlops2025-lesson4-monitoring"
+version = "0.1.0"
+description = "MLOps 2025, lesson 4: monitoring of the FastAPI ONNX inference service"
+authors = [{ name = "Arsen Ziyadinov" }]
+readme = "README.md"
+requires-python = ">=3.10,<3.14"
+dependencies = [
+    "requests (>=2.31,<3.0)",
+    "pyyaml (>=6.0,<7.0)",
+    "pillow (>=10.0,<12.0)",
+]
+
+[tool.poetry]
+package-mode = false
+
+[tool.poetry.group.dev.dependencies]
+pytest = "^8.0"
+pre-commit = "^4.0"
+black = "^24.10"
+ruff = "^0.8"
+isort = "^5.13"
+
+[tool.pytest.ini_options]
+pythonpath = ["."]
+testpaths = ["tests"]
+
+[tool.black]
+line-length = 88
+target-version = ["py310", "py311"]
+
+[tool.isort]
+profile = "black"
+
+[tool.ruff]
+line-length = 88
+target-version = "py310"
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "B"]
+ignore = ["E501"]
+
+[build-system]
+requires = ["poetry-core>=2.0.0,<3.0.0"]
+build-backend = "poetry.core.masonry.api"

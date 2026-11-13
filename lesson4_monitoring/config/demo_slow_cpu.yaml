@@ -1,0 +1,44 @@
+# Профиль для демонстрации на слабой машине (2 vCPU, без GPU).
+# BLIP в ONNX отвечает там примерно за 7 с, поэтому пороги времени
+# отклика подняты, а окно метрик уменьшено, чтобы восстановление после
+# сбоя было видно за несколько проверок. Остальное как в основном конфиге.
+
+service:
+  host: "localhost"
+  port: 8000
+  base_url: "http://localhost:8000"
+  working_dir: "../step2_fastapi_inference"
+  start_command: ["poetry", "run", "uvicorn", "src.api:app", "--host", "127.0.0.1", "--port", "8000"]
+  startup_timeout_seconds: 300
+
+monitoring:
+  check_interval_seconds: 3
+  samples_per_check: 2
+  request_timeout_seconds: 15
+  metrics_window: 10
+  images:
+    - "test_images/img.jpg"
+    - "test_images/img.png"
+
+thresholds:
+  response_time_ms:
+    warning: 9000
+    critical: 15000
+  p95_latency_ms:
+    warning: 10000
+    critical: 16000
+  error_rate_percent:
+    warning: 10
+    critical: 25
+  consecutive_failures:
+    warning: 3
+    critical: 5
+
+alerts:
+  enabled: true
+  cooldown_minutes: 5
+
+logging:
+  console_colors: true
+  log_file: "logs/monitoring.log"
+  metrics_file: "logs/metrics.jsonl"
