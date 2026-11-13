@@ -41,3 +41,12 @@ stages:
       - params.yaml
     metrics:
       - metrics/metrics.json
+
+  validate_model:
+    cmd: python src/validate_model.py
+    deps:
+      - src/validate_model.py
+      - models/model.pkl
+      - params.yaml
+      - data/processed/dataset.csv
+      - metrics/metrics.json
