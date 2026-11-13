@@ -44,6 +44,8 @@ stages:
 
   validate_model:
     cmd: python src/validate_model.py
+    # проверка качества без выходов: запускаем при каждом dvc repro
+    always_changed: true
     deps:
       - src/validate_model.py
       - models/model.pkl

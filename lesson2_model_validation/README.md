@@ -13,7 +13,7 @@
 | 1. Poetry вместо `requirements.txt`, pre-commit: black, ruff, isort, end-of-file-fixer, check-yaml | `pyproject.toml`, `poetry.lock`, [`../.pre-commit-config.yaml`](../.pre-commit-config.yaml) |
 | 2. `evaluate.py` пишет `metrics/metrics.json`: accuracy, число строк в датасете и в тестовой выборке | `src/evaluate.py` |
 | 3. `validate_model.py` читает модель и данные, пересчитывает accuracy на той же тестовой выборке, сверяет её с `metrics.json` и сравнивает с `accuracy_min` из `params.yaml`. При `accuracy < accuracy_min` завершается с кодом 1 | `src/validate_model.py`, `params.yaml` |
-| 4. `dvc.yaml`: у стадии `evaluate` секция `metrics`, новая стадия `validate_model` после `evaluate` | `dvc.yaml`, `dvc.lock` |
+| 4. `dvc.yaml`: у стадии `evaluate` секция `metrics`, новая стадия `validate_model` после `evaluate`. У неё нет выходов, поэтому стоит `always_changed: true`: проверка идёт при каждом `dvc repro`, даже если данные и модель не менялись | `dvc.yaml`, `dvc.lock` |
 
 ## Запуск
 
